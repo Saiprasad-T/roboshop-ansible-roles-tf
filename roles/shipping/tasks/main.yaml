@@ -1,0 +1,53 @@
+- name: app_setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app_setup.yaml
+- name: installing maven
+  ansible.builtin.dnf:
+    name: maven
+    state: present
+- name: cleaning pacakage
+  ansible.builtin.command:
+    cmd: mvn clean package
+    chdir: /app
+- name: deleting shipping-1 jar file
+  ansible.builtin.command:
+    cmd: mv target/shipping-1.0.jar shipping.jar
+    chdir: /app
+- name: configuring shipping.service file
+  ansible.builtin.template:
+    src: shipping.service
+    dest: /etc/systemd/system/shipping.service
+- name: daemon_reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+- name: installing mysql
+  ansible.builtin.dnf:
+    name: mysql
+    state: present
+- name: checking whether the data is loaded into the tables or not
+  ansible.builtin.command:
+    cmd: mysql -h "{{ mysql_host }}" -uroot -pRoboShop@1 -e 'use cities'
+  register: mysql_check
+  ignore_errors: yes
+  changed_when: false
+- name: Load schema.sql
+  ansible.builtin.shell: 
+    cmd: mysql -h "{{ mysql_host }}" -uroot -pRoboShop@1 < /app/db/schema.sql
+  when: mysql_check.rc != 0
+- name: load user_data
+  ansible.builtin.shell: 
+    cmd: mysql -h "{{ mysql_host }}" -uroot -pRoboShop@1 < /app/db/app-user.sql
+  when: mysql_check.rc != 0
+- name: load master data
+  ansible.builtin.shell: 
+    cmd: mysql -h "{{ mysql_host }}" -uroot -pRoboShop@1 < /app/db/master-data.sql
+  when: mysql_check.rc != 0
+- name: Print message if already loaded
+  ansible.builtin.debug:
+    msg: "Data is already loaded. Skipping."
+  when: mysql_check.rc == 0
+- name: restarting shipping service
+  ansible.builtin.service:
+    name: shipping
+    state: restarted

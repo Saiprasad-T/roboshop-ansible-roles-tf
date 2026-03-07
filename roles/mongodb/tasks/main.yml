@@ -1,0 +1,26 @@
+  - name: Copy file with owner and permissions
+    ansible.builtin.copy:
+     src: mongo.repo
+     dest: /etc/yum.repos.d/mongo.repo
+
+  - name: installing mongodb
+    ansible.builtin.dnf:
+      name: mongodb-org
+      state: present
+
+  - name: starting mongodb service
+    ansible.builtin.service:
+      name: mongod
+      enabled: yes
+      state: started
+
+  - name: replacing the file
+    ansible.builtin.replace:
+      path: /etc/mongod.conf
+      regexp: 127.0.0.1
+      replace: 0.0.0.0
+ 
+  -  name: restarting the mongod service
+     ansible.builtin.service:
+      name: mongod
+      state: restarted

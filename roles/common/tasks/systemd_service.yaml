@@ -1,0 +1,7 @@
+- name: Template a file to /etc/file.conf #updating conf file
+  ansible.builtin.template:
+    src: "{{ component }}.service"
+    dest: /etc/systemd/system/{{ component }}.service
+- name: daemon_reload
+  ansible.builtin.systemd_service:
+    daemon_reload: true
