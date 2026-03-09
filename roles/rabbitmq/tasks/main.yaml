@@ -14,7 +14,7 @@
 - name: adding user
   community.rabbitmq.rabbitmq_user:
     user: roboshop
-    password: roboshop123
+    password: "{{ USER-PASSWORD  }}"
     vhost: /
     configure_priv: .*
     read_priv: .*
