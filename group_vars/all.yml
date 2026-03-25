@@ -10,4 +10,3 @@ user_host: user-dev.devopswiththota.online
 shipping_host: shipping-dev.devopswiththota.online
 payment_host: payment-dev.devopswiththota.online
 
-environment : dev

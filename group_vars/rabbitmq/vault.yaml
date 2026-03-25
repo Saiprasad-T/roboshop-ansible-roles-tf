@@ -1,5 +1,5 @@
 # USER_PASSWORD: "{{ lookup('amazon.aws.aws_ssm', '/roboshop/dev/rabbitmq_user_password', region='us-east-1', decrypt=True) }}"
 
-ssm_path: "/roboshop/{{ environment }}/rabbitmq_user_password"
+ssm_path: "/roboshop/dev/rabbitmq_user_password"
 
 USER_PASSWORD: "{{ lookup('amazon.aws.aws_ssm', ssm_path, region='us-east-1', decrypt=True) }}"
