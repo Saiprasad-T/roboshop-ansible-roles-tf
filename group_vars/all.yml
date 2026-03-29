@@ -13,4 +13,3 @@ cart_host: cart.backend-alb-{{ env }}.devopswiththota.online
 user_host: user.backend-alb-{{ env }}.devopswiththota.online
 shipping_host: shipping.backend-alb-{{ env }}.devopswiththota.online
 payment_host: payment.backend-alb-{{ env }}.devopswiththota.online
-
