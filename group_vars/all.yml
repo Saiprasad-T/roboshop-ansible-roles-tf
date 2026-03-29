@@ -1,12 +1,16 @@
 ansible_user: ec2-user
 ansible_password: DevOps321
-mongodb_host: mongodb-dev.devopswiththota.online
-catalogue_host: catalogue-dev.devopswiththota.online
-redis_host: redis-dev.devopswiththota.online
-mysql_host: mysql-dev.devopswiththota.online
-rabbitmq_host: rabbitmq-dev.devopswiththota.online
-cart_host: cart-dev.devopswiththota.online
-user_host: user-dev.devopswiththota.online
-shipping_host: shipping-dev.devopswiththota.online
-payment_host: payment-dev.devopswiththota.online
+
+#databases
+mongodb_host: mongodb-{{ env }}.devopswiththota.online
+redis_host: redis-{{ env }}.devopswiththota.online
+mysql_host: mysql-{{ env }}.devopswiththota.online
+rabbitmq_host: rabbitmq-{{ env }}.devopswiththota.online
+
+#components
+catalogue_host: catalogue.backend-alb-{{ env }}.devopswiththota.online
+cart_host: cart.backend-alb-{{ env }}.devopswiththota.online
+user_host: user.backend-alb-{{ env }}.devopswiththota.online
+shipping_host: shipping.backend-alb-{{ env }}.devopswiththota.online
+payment_host: payment.backend-alb-{{ env }}.devopswiththota.online
 
